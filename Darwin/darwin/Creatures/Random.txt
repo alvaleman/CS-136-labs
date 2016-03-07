@@ -1,0 +1,11 @@
+Random
+green
+left
+hop
+hop
+ifenemy 5
+ifrandom 3
+infect
+ifsame 1
+go 1
+.

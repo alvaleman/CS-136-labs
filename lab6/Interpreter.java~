@@ -1,0 +1,200 @@
+/*Alvaro Aleman
+ *Lab 6 
+ *3/18/2015
+ */
+
+// 
+
+import structure5.*;
+
+public class Interpreter{
+
+    protected StackList<Token> s;
+    protected SymbolTable table;
+
+    
+    public static void main(String args[]){
+	Reader r = new Reader();
+	Interpreter i = new Interpreter();
+	i.interpret(r);
+		   	   
+	}
+
+
+	public Interpreter(){
+
+	    StackList<Token> s = new StackList<Token>();
+	    SymbolTable table = new SymbolTable();
+	    
+
+	}
+
+	public void interpret(Reader r){
+	    
+	    Token t;
+	    while (r.hasNext()){
+		
+		t = (Token)r.next();
+		
+		if (t.isSymbol() && t.getSymbol().equals("quit")) break;
+		
+		if(t.isNumber() ){
+		    
+		    s.add(t);
+		}
+		
+		if (t.isSymbol()){
+		    
+		    if(t.getSymbol().equals("add")){
+			
+			addition();
+			
+		    }else if(t.getSymbol().equals("sub")){
+			
+		        subtraction();
+			    
+		    }else if (t.getSymbol().equals("mul")) {
+			
+			multiplication();
+			    
+		    }else if (t.getSymbol().equals("div")){
+			
+			division();
+			    
+		    }else if(t.getSymbol().equals("dup")){
+			
+		        duplicate();
+				
+		    }else if(t.getSymbol().equals("exch")){
+			
+			exchange();
+			    
+		    }else if(t.getSymbol().equals("eq")){
+					
+			equal();
+			    
+		    }else if(t.getSymbol().equals("ne")){
+			
+		        notEqual();
+	        
+			    
+		    }else if(t.getSymbol().equals("pop")){
+			
+		        pop();
+			    
+		    }else if(t.getSymbol().equals("ptable")){
+			
+			table.toString();
+			
+		    }else if(t.getSymbol().equals("pstack")){
+			
+			s.toString();
+			
+		    } else if(t.getSymbol().substring(0,1).equals("\\")){
+			
+		        s.add(t);
+			
+		    } else if (t.getSymbol().equals("def")){
+			
+		        define();
+		    }else if (table.contains(t.getSymbol())){
+			    
+			    Token token = table.get(t.getSymbol());
+			    System.out.println(token.getNumber());
+			}
+			
+			}
+		}
+	    }
+	    
+	       
+  
+    public void addition(){
+	Token first = s.get();
+	double num1 = first.getNumber();
+
+	Token second = s.get();
+	double num2 = second.getNumber();
+	double result = num1 + num2;
+	Token item = new Token(result);
+	s.add(item);
+    }
+    
+    public void subtraction(){
+	int first = s.get();
+	int second = s.get();
+	int result = second - first;
+	Token item = new Token(result);
+	  s.add(item);
+	 	  
+    }
+    
+    public void multiplication(){
+	int first = s.get();
+	int second = s.get();
+	int result = first*second;
+	Token item = new Token(result);
+	s.add(item);
+    }
+    
+    public void division(){
+	
+	int first = s.get();
+	int second = s.get();
+	int result = second/first;
+	Token item = new Token(result);
+	s.add(item);
+    }
+
+     public void duplicate(){
+
+	 Token first = s.get();
+	 s.add(first);
+	 s.add(first);
+     }
+    
+    public void exchange(){
+	Token first = s.get();
+	Token second = s.get();
+	s.add(first);
+	s.add(second);
+     }
+
+    public void equal(){
+	Token first = s.get();
+	Token second = s.get();
+        boolean equal = first.equals(second);
+	Token item = new Token(equal);
+	s.add(item);
+     }
+
+    public void notEqual(){
+
+	Token first = s.get();
+	Token second = s.get();
+        boolean equal = !first.equals(second);
+	Token item = new Token(equal);
+	s.add(item);
+     }
+
+    public void define(){
+
+	Token value = s.get();
+	String symbol = s.get();
+	table.add(symbol, new Token(value));
+
+     }
+
+    public void pop(){
+	s.remove();
+     }
+
+}
+    
+
+    
+
+
+    
+    
+ 

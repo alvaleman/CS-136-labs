@@ -1,0 +1,18 @@
+Gatherer
+green
+hop
+ifwall 6
+ifenemy 7
+ifsame 6
+right
+right
+infect
+infect
+infect
+infect
+infect
+infect
+infect
+infect
+go 1
+.

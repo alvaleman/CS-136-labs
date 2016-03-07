@@ -1,0 +1,11 @@
+Gatherer
+green
+left
+hop
+ifwall 6
+ifenemy 7
+ifsame 6
+right
+infect
+go 1
+.

@@ -1,0 +1,12 @@
+Tester
+green
+ifenemy 8
+ifenemyleft 5
+ifenemyright 5
+if2enemy 5
+hop
+go 1
+infect
+go 1
+.
+

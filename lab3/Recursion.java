@@ -1,0 +1,234 @@
+ /*Alvaro Aleman (c) 20150
+ *Lab: 3- Recursion methods
+ *This class implements different recursive methods
+ */
+
+//used in last method to remove last element of array 
+import java.util.Arrays;
+    
+public class Recursion{
+    
+    
+    //Testing of methods
+       public static void main(String[] args) {
+	System.out.println("A pyramid of this height will have " + countCannonballs(3) + " spheres");
+	
+	System.out.println("Palindrone? " + palindrome("worddrow"));
+	 
+       System.out.println("Balanced?" + isBalanced("{([])([()])}"));
+       System.out.println("Balanced?" + isBalanced("(([])"));
+       printSubstrings("abcde");
+       
+       System.out.println("Binary of 3:" + printInBinary(3));
+       int [] setOfNums = {4,3,13,7,8,2};
+       int targetSum = 15;
+       canMakeSum(setOfNums, targetSum);
+       countSubsetSumSolutions(setOfNums, targetSum);
+        printSubsetSum(setOfNums, targetSum);
+       
+       
+       
+       }
+    
+
+    
+    
+    //method used to calculate number of spheres needed to make a pyramid of height n
+//O(n)
+    public static int countCannonballs(int height){
+	assert height >= 0;
+        if (height == 0){
+	    return 0;
+	}
+	else{
+        return height*height + countCannonballs(height-1);
+    }
+    }
+    
+    
+    //Method that determines whether a word is a palindrone by checking that letters at the ends of the string match
+//O(n)
+     public static boolean palindrome(String word){
+	 assert word != null;
+        int l = word.length();
+        if(l ==0 || l==1){
+	    return true;
+        }else{
+	    return(word.charAt(0) == word.charAt(l-1) && palindrome(word.substring(1,l-1)));
+	}
+     }
+    
+    
+    //finds if string is blanced by removing the bracket operators from string until length is 0.
+    //O(n)
+    public static boolean isBalanced(String str){
+	assert(str != null);
+    if (str.length() == 0){
+    return true;
+    }else{
+	if(!(str.contains("()") || str.contains("{}") || str.contains("[]"))){
+        return false;
+        
+    }else {
+        str = str.replaceAll("\\(\\)","");
+        str = str.replaceAll("\\{\\}","");
+        str = str.replaceAll("\\[\\]","");
+        return isBalanced(str);
+    }
+    }
+        }
+    
+    
+    //recursive methods that determine whether a subset of integers form a given set can make a target number by addition
+    //O(n)
+    public static boolean canMakeSum(int[] setOfNums, int targetSum) {
+    return canMakeSumRec(setOfNums.length - 1, setOfNums, targetSum);
+    }
+    
+    public static boolean canMakeSumRec(int maxIndex, int[] setOfNums, int targetSum) {
+	if(targetSum == 0){
+	
+	return true;
+    } else if (maxIndex < 0){
+    return false;
+    }else{
+	
+	return canMakeSumRec(maxIndex - 1, setOfNums, targetSum - setOfNums [maxIndex]) ||
+        canMakeSumRec(maxIndex - 1, setOfNums, targetSum);
+    
+    }
+    }
+    
+    
+    
+    //Recursive method that prints out all subset of the letters in str.
+    //O(n)
+
+    public static void printSubstrings(String str){
+	substringHelper(str,str.substring(0,1));
+    }
+    
+    
+    public static void substringHelper (String str, String soFar){
+	assert(soFar != null && str != null);
+   for (int i = 0; i < str.length(); i++){
+		    String newSoFar = new String(soFar);
+				String newRest = "";                                    
+				 for (int j = 0; j < str.length(); j++){
+				       if (j != i){
+								    newRest+=str.charAt(j);
+                                                                                  
+								}
+				   }                                             
+				   newSoFar += str.charAt(i);
+					  if (newRest.length() == 0){
+				     System.out.println(newSoFar);                                                               
+				 } else {                                                      
+                substringHelper(newSoFar, newRest);
+				 }                                          
+		}
+    }
+    
+        
+    
+    
+    // The next two methods convert an int to binary
+    //O(n)
+    public static String printInBinary(int number) {
+	assert number >=0;
+                if (number == 0){
+		    return "0";
+		 
+                } else {
+		    return printInBinaryHelper(number);
+                }              
+    }    
+    private static String printInBinaryHelper(int number){
+	assert number >=0;
+                String binary = "";
+                if (number > 0){
+		    binary = printInBinaryHelper(number/2) + number%2;
+                }
+		
+                return binary;
+    }
+    
+    
+    
+    
+    
+    
+    //recursive methods that prints out a subset of integers from a given set to make a target number by addition
+    //O(n)
+    public static boolean printSubsetSum(int[] setOfNums, int targetSum) {
+	
+	return printSubHelper(setOfNums.length - 1, setOfNums, targetSum);
+    }
+    
+
+    
+    public static boolean printSubHelper(int maxIndex, int[] setOfNums, int targetSum) {
+	if(targetSum == 0){
+	
+        String successfulSubset = "Possible subset-"  ; 
+	
+	for(int i=maxIndex; i<setOfNums.length; i++){
+
+		System.out.println(successfulSubset += "" +setOfNums[i]);
+	
+	return true;
+	    }
+    }else if (maxIndex < 0){
+	    System.out.println( "No possible Substring found");
+	return false;
+    
+    }else{
+	
+	return printSubHelper(maxIndex - 1, setOfNums, targetSum - setOfNums [maxIndex]) ||
+        printSubHelper(maxIndex - 1, setOfNums, targetSum);
+    
+    }
+    }
+    
+    
+
+    //recursive methods that counts how many subsets from a given set make a target number by addition
+    
+    //O(n)
+    public static int countSubsetSumSolutions(int[] setOfNums, int targetSum) {
+	
+	int count = 0; 
+	while( setOfNums.length > 0){
+	    
+	    if(calcSumRec(setOfNums.length - 1, setOfNums, targetSum)){
+		count++;
+		
+	    }
+	    //remove last letter from set of nums
+	    setOfNums = ArrayUtils.removeElement(setOfNums, setOfNums.length-1);
+	}
+	return count;
+
+    }
+
+
+    public static boolean calcSumRec(int maxIndex, int[] setOfNums, int targetSum) {
+	if(targetSum == 0){
+	    
+	    return true;
+	} else if (maxIndex < 0){
+	    return false;
+	}else{
+	    
+	    return calcSumRec(maxIndex - 1, setOfNums, targetSum - setOfNums [maxIndex]) ||
+		calcSumRec(maxIndex - 1, setOfNums, targetSum);
+	    
+	}
+    }
+    
+    
+}
+
+
+
+

@@ -1,0 +1,8 @@
+Tester
+green
+ifenemy 3
+if2enemy 4
+infect
+hop
+go 1
+.
